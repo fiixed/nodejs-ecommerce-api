@@ -150,3 +150,58 @@ export const getProductCtrl = asyncHandler(async (req, res) => {
     product,
   });
 });
+
+// @desc    update  product
+// @route   PUT /api/products/:id/update
+// @access  Private/Admin
+
+export const updateProductCtrl = asyncHandler(async (req, res) => {
+  const {
+    name,
+    description,
+    category,
+    sizes,
+    colors,
+    user,
+    price,
+    totalQty,
+    brand,
+  } = req.body;
+  //validation
+
+  //update
+  const product = await Product.findByIdAndUpdate(
+    req.params.id,
+    {
+      name,
+      description,
+      category,
+      sizes,
+      colors,
+      user,
+      price,
+      totalQty,
+      brand,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  res.json({
+    status: "success",
+    message: "Product updated successfully",
+    product,
+  });
+});
+
+// @desc    delete  product
+// @route   DELETE /api/products/:id/delete
+// @access  Private/Admin
+export const deleteProductCtrl = asyncHandler(async (req, res) => {
+  await Product.findByIdAndDelete(req.params.id);
+  res.json({
+    status: "success",
+    message: "Product deleted successfully",
+  });
+});

@@ -8,6 +8,7 @@ import {
   notFound,
 } from "../middlewares/globalErrorHandler.js";
 import productsRouter from "../routes/productsRoute.js";
+import categoriesRouter from "../routes/categoriesRouter.js";
 
 dbConnect();
 const app = express();
@@ -17,6 +18,8 @@ app.use(express.json());
 //routes
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/products", productsRouter);
+app.use("/api/v1/categories", categoriesRouter);
+
 
 // error middleware
 app.use(notFound);

@@ -50,6 +50,7 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
 // @access  Public
 
 export const getProductsCtrl = asyncHandler(async (req, res) => {
+  console.log(req.query.page);
   //query
   let productQuery = Product.find();
 
@@ -93,10 +94,43 @@ export const getProductsCtrl = asyncHandler(async (req, res) => {
       price: { $gte: priceRange[0], $lte: priceRange[1] },
     });
   }
+  //pagination
+  //page
+  const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
+  //limit
+  const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 10;
+  //startIdx
+  const startIndex = (page - 1) * limit;
+  //endIdx
+  const endIndex = page * limit;
+  //total
+  const total = await Product.countDocuments();
+
+  productQuery = productQuery.skip(startIndex).limit(limit);
+
+  //pagination results
+  const pagination = {};
+  if (endIndex < total) {
+    pagination.next = {
+      page: page + 1,
+      limit,
+    };
+  }
+  if (startIndex > 0) {
+    //there is no next page
+    pagination.prev = {
+      page: page - 1,
+      limit,
+    };
+  }
   //await the query
   const products = await productQuery;
   res.json({
     status: "success",
+    total,
+    results: products.length,
+    pagination,
+    message: "Products fetched successfully",
     products,
   });
 });

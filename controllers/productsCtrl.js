@@ -17,7 +17,7 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
   }
   //find the brand
   const brandFound = await Brand.findOne({
-    name: brand.toLowerCase(),
+    name: brand?.toLowerCase(),
   });
 
   if (!brandFound) {
@@ -27,7 +27,7 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
   }
   //find the category
   const categoryFound = await Category.findOne({
-    name: category,
+    name: category?.toLowerCase(),
   });
   if (!categoryFound) {
     throw new Error(

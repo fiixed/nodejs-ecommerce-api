@@ -44,8 +44,9 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
     });
     if (product) {
       product.totalSold += order.qty;
+      await product.save();
     }
-    await product.save();
+    
   });
   //push order into user
   user.orders.push(order?._id);

@@ -46,7 +46,6 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
       product.totalSold += order.qty;
       await product.save();
     }
-    
   });
   //push order into user
   user.orders.push(order?._id);
@@ -72,19 +71,22 @@ export const createOrderCtrl = asyncHandler(async (req, res) => {
       orderId: JSON.stringify(order?._id),
     },
     mode: "payment",
-    success_url: "http://localhost:3000/success",
-    cancel_url: "http://localhost:3000/cancel",
+    success_url: "http://localhost:9999/success",
+    cancel_url: "http://localhost:9999/cancel",
   });
   res.send({ url: session.url });
+});
 
-  //Payment webhook
-  //Update the user order
+//@desc get all orders
+//@route GET /api/v1/orders
+//@access private
 
-  //send response
-  //   res.status(200).json({
-  //     success: true,
-  //     message: "Sum of orders",
-  //     order,
-  //     user,
-  //   });
+export const getAllordersCtrl = asyncHandler(async (req, res) => {
+  //find all orders
+  const orders = await Order.find().populate("user");
+  res.json({
+    success: true,
+    message: "All orders",
+    orders,
+  });
 });

@@ -9,7 +9,7 @@ import Product from "../model/Product.js";
 export const createProductCtrl = asyncHandler(async (req, res) => {
   const { name, description, category, sizes, colors, price, totalQty, brand } =
     req.body;
-  //const convertedImgs = req.files.map((file) => file?.path);
+  const convertedImgs = req.files.map((file) => file?.path);
   //Product exists
   const productExists = await Product.findOne({ name });
   if (productExists) {
@@ -17,7 +17,7 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
   }
   //find the brand
   const brandFound = await Brand.findOne({
-    name: brand?.toLowerCase(),
+    name: "addidas",
   });
 
   if (!brandFound) {
@@ -27,13 +27,14 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
   }
   //find the category
   const categoryFound = await Category.findOne({
-    name: category?.toLowerCase(),
+    name: category,
   });
   if (!categoryFound) {
     throw new Error(
       "Category not found, please create category first or check category name"
     );
   }
+  console.log("fuck");
   //create the product
   const product = await Product.create({
     name,
@@ -45,6 +46,7 @@ export const createProductCtrl = asyncHandler(async (req, res) => {
     price,
     totalQty,
     brand,
+    images: convertedImgs,
   });
   //push the product into category
   categoryFound.products.push(product._id);

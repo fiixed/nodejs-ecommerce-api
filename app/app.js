@@ -52,7 +52,7 @@ app.post(
       const paymentMethod = session.payment_method_types[0];
       const totalAmount = session.amount_total;
       const currency = session.currency;
-      
+
       //find the order
       const order = await Order.findByIdAndUpdate(
         JSON.parse(orderId),
@@ -89,9 +89,9 @@ app.post(
 app.use(express.json());
 
 //routes
-app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/products", productsRouter);
-app.use("/api/v1/categories", categoriesRouter);
+app.use("/api/v1/users/", userRoutes);
+app.use("/api/v1/products/", productsRouter);
+app.use("/api/v1/categories/", categoriesRouter);
 app.use("/api/v1/brands/", brandsRouter);
 app.use("/api/v1/colors/", colorRouter);
 app.use("/api/v1/reviews/", reviewRouter);

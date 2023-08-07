@@ -19,6 +19,8 @@ import couponsRouter from "../routes/couponsRouter.js";
 
 dbConnect();
 const app = express();
+//cors
+app.use(cors());
 
 //Stripe webhook
 //stripe instance

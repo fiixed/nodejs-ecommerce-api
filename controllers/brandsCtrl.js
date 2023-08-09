@@ -1,5 +1,5 @@
-import asyncHandler from "express-async-handler";
-import Brand from "../model/Brand.js";
+import asyncHandler from 'express-async-handler';
+import Brand from '../model/Brand.js';
 
 // @desc    Create new Brand
 // @route   POST /api/v1/brands
@@ -10,7 +10,7 @@ export const createBrandCtrl = asyncHandler(async (req, res) => {
   //brand exists
   const brandFound = await Brand.findOne({ name });
   if (brandFound) {
-    throw new Error("Brand already exists");
+    throw new Error('Brand already exists');
   }
   //create
   const brand = await Brand.create({
@@ -19,8 +19,8 @@ export const createBrandCtrl = asyncHandler(async (req, res) => {
   });
 
   res.json({
-    status: "success",
-    message: "Brand created successfully",
+    status: 'success',
+    message: 'Brand created successfully',
     brand,
   });
 });
@@ -32,8 +32,8 @@ export const createBrandCtrl = asyncHandler(async (req, res) => {
 export const getAllBrandsCtrl = asyncHandler(async (req, res) => {
   const brands = await Brand.find();
   res.json({
-    status: "success",
-    message: "Brands fetched successfully",
+    status: 'success',
+    message: 'Brands fetched successfully',
     brands,
   });
 });
@@ -44,8 +44,8 @@ export const getAllBrandsCtrl = asyncHandler(async (req, res) => {
 export const getSingleBrandCtrl = asyncHandler(async (req, res) => {
   const brand = await Brand.findById(req.params.id);
   res.json({
-    status: "success",
-    message: "brand fetched successfully",
+    status: 'success',
+    message: 'brand fetched successfully',
     brand,
   });
 });
@@ -58,7 +58,7 @@ export const updateBrandCtrl = asyncHandler(async (req, res) => {
 
   //update
   const brand = await Brand.findByIdAndUpdate(
-    req.params.id.trim(),
+    req.params.id,
     {
       name,
     },
@@ -67,8 +67,8 @@ export const updateBrandCtrl = asyncHandler(async (req, res) => {
     }
   );
   res.json({
-    status: "success",
-    message: "brand updated successfully",
+    status: 'success',
+    message: 'brand updated successfully',
     brand,
   });
 });
@@ -77,9 +77,9 @@ export const updateBrandCtrl = asyncHandler(async (req, res) => {
 // @route   DELETE /api/brands/:id
 // @access  Private/Admin
 export const deleteBrandCtrl = asyncHandler(async (req, res) => {
-  await Brand.findByIdAndDelete(req.params.id.trim());
+  await Brand.findByIdAndDelete(req.params.id);
   res.json({
-    status: "success",
-    message: "brand deleted successfully",
+    status: 'success',
+    message: 'brand deleted successfully',
   });
 });
